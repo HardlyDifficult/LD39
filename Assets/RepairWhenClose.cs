@@ -5,35 +5,36 @@ using UnityEngine;
 public class RepairWhenClose : MonoBehaviour
 {
   [SerializeField]
-  float repairPercent = 1.01f;
+  float repairPercent = .01f;
 
   Machine machine;
-  bool isRepairing;
+
+  Collider2D myCollider;
 
   protected void Awake()
   {
     machine = GetComponent<Machine>();
+    myCollider = GetComponent<Collider2D>();
   }
 
-  protected void OnTriggerEnter2D(
+  protected void OnTriggerStay2D(
     Collider2D collision)
   {
-    Instructions.current = Instructions.InstructionType.Repair;
-    isRepairing = true;
-  }
-
-  protected void OnTriggerExit2D(
-    Collider2D collision)
-  {
-    Instructions.current = Instructions.InstructionType.None;
-    isRepairing = false;
-  }
-
-  protected void FixedUpdate()
-  {
-    if(isRepairing)
+    Vector2 deltaPosition = transform.position - collision.transform.position;
+    float deltaMag = deltaPosition.sqrMagnitude;
+    float maxDelta = collision.GetComponent<CircleCollider2D>().radius;
+    maxDelta *= maxDelta;
+    if(deltaMag > maxDelta)
     {
-      machine.currentEffeciencyPercent *= repairPercent;
+      return;
     }
+    float percentDistance = deltaMag / maxDelta;
+    percentDistance = 1 - percentDistance;
+    machine.currentEffeciencyPercent *= 1 + (repairPercent * percentDistance);
+
+    var distance = collision.GetComponent<CapsuleCollider2D>().Distance(myCollider);
+    Debug.DrawLine(distance.pointB, distance.pointA, Color.white * percentDistance);
+
+    GameController.instance.totalOutput += (int) (machine.kwPer * machine.currentEffeciencyPercent * percentDistance);
   }
 }

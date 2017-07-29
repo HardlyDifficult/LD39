@@ -9,7 +9,7 @@ public class Machine : MonoBehaviour
   float _currentValue = 1;
 
   [SerializeField]
-  int kwPer = 1000;
+  public int kwPer = 1000;
 
   public event Action onValueChange;
 
@@ -40,10 +40,5 @@ public class Machine : MonoBehaviour
       }
     }
   }
-
-  protected void FixedUpdate()
-  {
-    GameController.instance.totalOutput 
-      += (int)(currentEffeciencyPercent * kwPer);
-  }
+  
 }
