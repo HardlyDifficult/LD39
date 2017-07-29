@@ -14,6 +14,8 @@ public class TextTotalOutput : MonoBehaviour
 
   protected void Update()
   {
-    text.text = GameController.instance.totalOutput.ToString("N0") + " kW";
+    float percentOfNetwork = (float)GameController.instance.totalOutput / Machine.initialNetworkPotential * 100;
+    text.text = "Harvested: " + GameController.instance.totalOutput.ToString("N0") + " kW ("
+      + percentOfNetwork.ToString("N2") + "%)";
   }
 }

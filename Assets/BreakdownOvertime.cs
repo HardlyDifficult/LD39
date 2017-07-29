@@ -16,6 +16,6 @@ public class BreakdownOvertime : MonoBehaviour
 
   protected void FixedUpdate()
   {
-    machine.currentEffeciencyPercent -= breakdownRate;
+    machine.totalPotential = (int)(machine.totalPotential * (1 - breakdownRate));
   }
 }

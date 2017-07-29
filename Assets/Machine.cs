@@ -5,40 +5,51 @@ using UnityEngine;
 
 public class Machine : MonoBehaviour
 {
-  [SerializeField]
-  float _currentValue = 1;
+  public static int initialNetworkPotential;
+  public static int totalNetworkPotential;
 
-  [SerializeField]
-  public int kwPer = 1000;
-
-  public event Action onValueChange;
-
-  /// <summary>
-  /// Capped 0 -> 1
-  /// </summary>
-  public float currentEffeciencyPercent
+  public static float percentNetworkPotential
   {
     get
     {
-      return _currentValue;
+      return (float)totalNetworkPotential / initialNetworkPotential;
+    }
+  }
+
+  int initialPotential;
+  [SerializeField]
+  int _totalPotential = 1000000;
+  public int totalPotential
+  {
+    get
+    {
+      return _totalPotential;
     }
     set
     {
-      _currentValue = value;
-
-      if(currentEffeciencyPercent < 0)
-      {
-        _currentValue = 0;
-      } else if(currentEffeciencyPercent > 1)
-      {
-        _currentValue = 1;
-      }
-
-      if(onValueChange != null)
-      {
-        onValueChange();
-      }
+      totalNetworkPotential += value - totalPotential;
+      _totalPotential = value;
     }
   }
-  
+
+  public int maxPonetialPerFixed = 100;
+
+  public float percentPotential
+  {
+    get
+    {
+      return (float)totalPotential / initialPotential;
+    }
+  }
+
+  protected void Awake()
+  {
+    initialPotential = totalPotential;
+    totalNetworkPotential += totalPotential;
+  }
+
+  protected void Start()
+  {
+    initialNetworkPotential = totalNetworkPotential;
+  }
 }

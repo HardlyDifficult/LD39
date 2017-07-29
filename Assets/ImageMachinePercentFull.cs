@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextMachineStats : MonoBehaviour
-{
+public class ImageMachinePercentFull : MonoBehaviour {
+  Image image;
   Machine machine;
-  Text text;
 
   protected void Awake()
   {
+    image = GetComponent<Image>();
     machine = GetComponentInParent<Machine>();
-
-    text = GetComponent<Text>();
   }
 
-  protected void FixedUpdate()
+  protected void Update()
   {
-    text.text = (machine.percentPotential * 100).ToString("N0") + "%";
+    image.fillAmount = machine.percentPotential;
   }
 }
