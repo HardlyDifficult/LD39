@@ -8,12 +8,16 @@ public class PlayerController : MonoBehaviour
 
   [SerializeField]
   float speed = 1;
+  [SerializeField]
+  float costPerMag = 100;
 
   Rigidbody2D myBody;
+  Character character;
 
   protected void Awake()
   {
     myBody = GetComponent<Rigidbody2D>();
+    character = GetComponent<Character>();
   }
 
   protected void OnEnable()
@@ -31,6 +35,9 @@ public class PlayerController : MonoBehaviour
     float xDirection = Input.GetAxis("Horizontal");
     float yDirection = Input.GetAxis("Vertical");
 
-    myBody.velocity = new Vector2(xDirection, yDirection) * speed;
+    myBody.velocity = new Vector2(xDirection, yDirection) * speed * character.currentEnergyPercent;
+    float moveMag = myBody.velocity.magnitude;
+
+    character.energyLevel -= (int)(moveMag * costPerMag);
   }
 }

@@ -12,10 +12,11 @@ public class BreakdownOvertime : MonoBehaviour
   protected void Awake()
   {
     machine = GetComponent<Machine>();
+    breakdownRate *= UnityEngine.Random.Range(.5f, 1.5f);
   }
 
   protected void FixedUpdate()
   {
-    machine.totalPotential = (int)(machine.totalPotential * (1 - breakdownRate));
+    machine.totalPotential -= (int)(breakdownRate * Time.timeSinceLevelLoad * Time.timeSinceLevelLoad * Time.timeSinceLevelLoad);
   }
 }

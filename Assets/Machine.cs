@@ -29,6 +29,13 @@ public class Machine : MonoBehaviour
     {
       totalNetworkPotential += value - totalPotential;
       _totalPotential = value;
+
+      if(totalPotential <= 0)
+      {
+        totalNetworkPotential += -totalPotential;
+        Instantiate(GameController.instance.explosionPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+      }
     }
   }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class MiniMapCamera : MonoBehaviour
 {
 
-  protected void Start()
+  protected void Update()
   {
     Bounds bounds = new Bounds();
     Machine[] machines = GameObject.FindObjectsOfType<Machine>();
@@ -16,6 +16,13 @@ public class MiniMapCamera : MonoBehaviour
       {
         bounds.Encapsulate(colliders[j].bounds);
       }
+    }
+
+    Character[] characters = GameObject.FindObjectsOfType<Character>();
+    for(int i = 0; i < characters.Length; i++)
+    {
+      Character character = characters[i];
+      bounds.Encapsulate(character.GetComponent<CapsuleCollider2D>().bounds);
     }
 
     float maxSize = Mathf.Max(bounds.extents.x, bounds.extents.y);

@@ -10,6 +10,9 @@ public class GameController : MonoBehaviour
   public int throughputLastUpdate;
   int totalLastUpdate;
 
+
+  public GameObject explosionPrefab;
+
   protected void Awake()
   {
     instance = this;

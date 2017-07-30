@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepairWhenClose : MonoBehaviour
+public class Grounder : MonoBehaviour
 {
   [SerializeField]
   GameObject lighteningPrefab;
@@ -15,7 +14,8 @@ public class RepairWhenClose : MonoBehaviour
   [SerializeField]
   Collider2D myLighteningCollider;
 
-  Machine machine;
+  [SerializeField]
+  float amountPer = -1;
 
   Collider2D myCollider;
 
@@ -23,7 +23,6 @@ public class RepairWhenClose : MonoBehaviour
 
   protected void Awake()
   {
-    machine = GetComponent<Machine>();
     myCollider = GetComponent<Collider2D>();
   }
 
@@ -55,34 +54,31 @@ public class RepairWhenClose : MonoBehaviour
       maxDelta *= maxDelta;
 
       float percentDistance = deltaMag / maxDelta;
+      percentDistance = Mathf.Clamp(percentDistance, 0, 1);
       percentDistance = 1 - percentDistance;
-      percentDistance *= percentDistance;
-      percentDistance = Mathf.Clamp(percentDistance, .1f, 1);
-      float multiple = 1 + (count - 1) * .75f;
-      int amountToHarvest = (int)((machine.maxPonetialPerFixed / multiple) * percentDistance * (.1 + machine.percentPotential));
-      amountToHarvest = Mathf.Clamp(amountToHarvest, 0, machine.totalPotential);
-
-      character.Harvest(machine, amountToHarvest);
+      float multiple = 1 + (count - 1) * .9f;
+      int amountToHarvest = (int)((amountPer / multiple) * percentDistance);
+      character.energyLevel += amountToHarvest;
 
 
 
       collider = collider.GetComponentInParent<CapsuleCollider2D>();
       var d = collider.Distance(myLighteningCollider);
       GameObject lightening = GetLightening(i);
-      lightening.transform.position = d.pointB;
-      float width = amountToHarvest * lighteningWidthMultiple;
+      lightening.transform.position = d.pointA;
+      float width = Mathf.Abs(amountToHarvest) * lighteningWidthMultiple;
       width *= width;
       width += .001f;
       lightening.transform.localScale = new Vector3(d.distance * lighteningLengthMultiple, width, 1);
-      var delta = d.pointA - d.pointB;
-      float zRotation = (float)Math.Atan2(delta.y, delta.x);
+      var delta =  d.pointB - d.pointA;
+      float zRotation = (float)Mathf.Atan2(delta.y, delta.x);
       lightening.transform.rotation = Quaternion.Euler(0, 0, zRotation * Mathf.Rad2Deg);
 
 
 
 
 
-      
+
     }
 
     while(count < lighteningList.Count)
@@ -101,7 +97,8 @@ public class RepairWhenClose : MonoBehaviour
     {
       lightening = Instantiate(lighteningPrefab);
       lighteningList.Add(lightening);
-    } else
+    }
+    else
     {
       lightening = lighteningList[i];
     }

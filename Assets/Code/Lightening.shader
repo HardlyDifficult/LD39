@@ -97,6 +97,7 @@
 				float percentIntoBreak = distanceIntoBreak / lengthOfBreak;
 
 
+				v.vertex.y *= 1-xPercent;
 				float percentMag = (1 - abs((xPercent * 2 - 1)));
 
 				v.vertex.y += (percentIntoBreak * _ZigZagMag * percentMag) / _Scale;
@@ -106,7 +107,6 @@
 				float sinPosition = sin(xPercent + _Time.z * rng(1, 10, 817.6));
 				v.vertex.y += (sinPosition * _SinMag * rng(.5, 1.5, 41.99) * percentMag * _XScale ) / _Scale;
 
-				v.vertex.y *= 1-xPercent;
 							
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
