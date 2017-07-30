@@ -55,7 +55,6 @@ public class Machine : MonoBehaviour
   protected void Awake()
   {
     initialPotential = totalPotential;
-    totalNetworkPotential += totalPotential;
   }
 
   protected void Start()
@@ -66,9 +65,11 @@ public class Machine : MonoBehaviour
   protected void OnEnable()
   {
     count++;
+    totalNetworkPotential += totalPotential;
   }
   protected void OnDisable()
   {
+    totalNetworkPotential -= totalPotential;
     count--;
   }
 }

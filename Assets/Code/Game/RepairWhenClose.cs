@@ -6,11 +6,7 @@ using UnityEngine;
 public class RepairWhenClose : MonoBehaviour
 {
   [SerializeField]
-  GameObject lighteningPrefab;
-  [SerializeField]
   float lighteningWidthMultiple = .01f;
-  [SerializeField]
-  float lighteningLengthMultiple = 1.05f;
 
   [SerializeField]
   Collider2D myLighteningCollider;
@@ -19,23 +15,13 @@ public class RepairWhenClose : MonoBehaviour
 
   Collider2D myCollider;
 
-  List<GameObject> lighteningList = new List<GameObject>();
 
   protected void Awake()
   {
     machine = GetComponent<Machine>();
     myCollider = GetComponent<Collider2D>();
   }
-
-  protected void OnDestroy()
-  {
-    for(int i = 0; i < lighteningList.Count; i++)
-    {
-      Destroy(lighteningList[i]);
-    }
-  }
-
-
+  
   protected void Update()
   {
     Collider2D[] resultList = new Collider2D[20];
@@ -48,6 +34,11 @@ public class RepairWhenClose : MonoBehaviour
     for(int i = 0; i < count; i++)
     {
       Collider2D collider = resultList[i];
+
+     
+
+
+
       Character character = collider.GetComponentInParent<Character>();
       Vector2 deltaPosition = transform.position - collider.transform.position;
       float deltaMag = deltaPosition.sqrMagnitude;
@@ -64,48 +55,17 @@ public class RepairWhenClose : MonoBehaviour
 
       character.Harvest(machine, amountToHarvest);
 
-
-
-      collider = collider.GetComponentInParent<CapsuleCollider2D>();
+      collider = character.currentBoltCollider;
       var d = collider.Distance(myLighteningCollider);
-      GameObject lightening = GetLightening(i);
-      lightening.transform.position = d.pointB;
       float width = amountToHarvest * lighteningWidthMultiple;
       width *= width;
       width += .001f;
-      lightening.transform.localScale = new Vector3(d.distance * lighteningLengthMultiple, width, 1);
-      var delta = d.pointA - d.pointB;
-      float zRotation = (float)Math.Atan2(delta.y, delta.x);
-      lightening.transform.rotation = Quaternion.Euler(0, 0, zRotation * Mathf.Rad2Deg);
 
-
-
-
-
-      
+      GameController.instance.CreateLightning(
+        isRed: false,
+        from: d.pointB,
+        to: d.pointA,
+        width: width);        
     }
-
-    while(count < lighteningList.Count)
-    {
-      int index = lighteningList.Count - 1;
-      GameObject lightening = lighteningList[index];
-      Destroy(lightening);
-      lighteningList.RemoveAt(index);
-    }
-  }
-
-  private GameObject GetLightening(int i)
-  {
-    GameObject lightening;
-    if(i >= lighteningList.Count)
-    {
-      lightening = Instantiate(lighteningPrefab);
-      lighteningList.Add(lightening);
-    } else
-    {
-      lightening = lighteningList[i];
-    }
-
-    return lightening;
   }
 }

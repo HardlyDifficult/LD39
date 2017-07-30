@@ -8,8 +8,10 @@ public class MoveBackAndForth : MonoBehaviour
   bool xVsY;
   [SerializeField]
   float distance;
+  [SerializeField]
+  bool shouldTeleportBack;
 
-  bool goingToEnd;
+  bool goingToEnd = true;
   [SerializeField]
   float speed;
 
@@ -21,7 +23,8 @@ public class MoveBackAndForth : MonoBehaviour
     if(xVsY)
     {
       delta = new Vector2(1, 0);
-    } else
+    }
+    else
     {
       delta = new Vector2(0, 1);
     }
@@ -44,7 +47,14 @@ public class MoveBackAndForth : MonoBehaviour
     transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
     if((target - (Vector2)transform.position).sqrMagnitude < .01)
     {
-      goingToEnd = !goingToEnd;
+      if(shouldTeleportBack)
+      {
+        transform.position = start;
+      }
+      else
+      {
+        goingToEnd = !goingToEnd;
+      }
     }
   }
 }

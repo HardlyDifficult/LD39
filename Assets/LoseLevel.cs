@@ -7,7 +7,7 @@ public class LoseLevel : MonoBehaviour
 
   void Update()
   {
-    if(Input.anyKey)
+    if(Input.anyKeyDown)
     {
       SceneManager.LoadScene("Menu");
     }

@@ -8,6 +8,8 @@ public class Character : MonoBehaviour
   public static int count;
   public int amountHarvestedThisFixed;
 
+  RotateYFacing rotateYFacing;
+
   [SerializeField]
   int maxEnergyLevel = 10000;
   public int energyLevel = 10000;
@@ -16,6 +18,25 @@ public class Character : MonoBehaviour
   int energyPerTick = 1;
   [SerializeField]
   float internalAbsorbRate = .9f;
+  [SerializeField]
+  Collider2D boltCollider;
+  [SerializeField]
+  Collider2D boltColliderWhenHorizontal;
+
+  public Collider2D currentBoltCollider
+  {
+    get
+    {
+      if(rotateYFacing.isFacingHorizontal)
+      {
+        return boltColliderWhenHorizontal;
+      }
+      else
+      {
+        return boltCollider;
+      }
+    }
+  }
 
   public float currentEnergyPercent
   {
@@ -23,6 +44,11 @@ public class Character : MonoBehaviour
     {
       return (float)energyLevel / maxEnergyLevel;
     }
+  }
+
+  protected void Awake()
+  {
+    rotateYFacing = GetComponentInChildren<RotateYFacing>();
   }
 
   public void Harvest(

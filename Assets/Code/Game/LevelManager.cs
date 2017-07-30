@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-  [SerializeField]
-  float percentHarvestToProceed;
+  public float percentHarvestToProceed;
 
   [SerializeField]
   int thisLevelNumber;
@@ -16,7 +15,7 @@ public class LevelManager : MonoBehaviour
     if(Machine.count == 0
       || Character.count == 0)
     { // Game over
-      float percentOfNetwork = (float)GameController.instance.totalOutput / Machine.initialNetworkPotential * 100;
+      float percentOfNetwork = (float)GameController.instance.totalOutput / Machine.initialNetworkPotential;
       if(percentOfNetwork >= percentHarvestToProceed)
       {
         if(thisLevelNumber > 1)
@@ -30,7 +29,7 @@ public class LevelManager : MonoBehaviour
       }
       else
       { // lose
-        SceneManager.LoadScene("Lose");
+        SceneManager.LoadScene("Level" + thisLevelNumber);
       }
     }
   }

@@ -51,6 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21935da3cb339b74e825977085e7c2ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yellowLighteningPrefab: {fileID: 1037902256055270, guid: 5c382afd76b10994cb3c81c089730ede,
+    type: 2}
+  redLighteningPrefab: {fileID: 1536162016103580, guid: 802b504b07988e94ab5c35c63beefeb4,
+    type: 2}
   totalOutput: 0
   throughputLastUpdate: 0
   explosionPrefab: {fileID: 1960269636047898, guid: eef3c44a02f9aea40bd61001d83881de,

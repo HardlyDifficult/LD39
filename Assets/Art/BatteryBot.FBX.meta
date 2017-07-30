@@ -1,0 +1,159 @@
+fileFormatVersion: 2
+guid: 3d065296527d0114baf366958d697d28
+timeCreated: 1501436923
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Battery00
+    100002: Battery01
+    100004: //RootNode
+    100006: Body
+    100008: FacePowerPlug
+    100010: FacePowerPlug001
+    100012: FacePowerPlug002
+    100014: Gear00
+    100016: Gear01
+    100018: Gear02
+    100020: Gear03
+    100022: Gear04
+    100024: Gear05
+    100026: LightningBolt
+    100028: Track00
+    100030: Track01
+    400000: Battery00
+    400002: Battery01
+    400004: //RootNode
+    400006: Body
+    400008: FacePowerPlug
+    400010: FacePowerPlug001
+    400012: FacePowerPlug002
+    400014: Gear00
+    400016: Gear01
+    400018: Gear02
+    400020: Gear03
+    400022: Gear04
+    400024: Gear05
+    400026: LightningBolt
+    400028: Track00
+    400030: Track01
+    2300000: Battery00
+    2300002: Battery01
+    2300004: Body
+    2300006: FacePowerPlug
+    2300008: FacePowerPlug001
+    2300010: FacePowerPlug002
+    2300012: Gear00
+    2300014: Gear01
+    2300016: Gear02
+    2300018: Gear03
+    2300020: Gear04
+    2300022: Gear05
+    2300024: LightningBolt
+    2300026: Track00
+    2300028: Track01
+    3300000: Battery00
+    3300002: Battery01
+    3300004: Body
+    3300006: FacePowerPlug
+    3300008: FacePowerPlug001
+    3300010: FacePowerPlug002
+    3300012: Gear00
+    3300014: Gear01
+    3300016: Gear02
+    3300018: Gear03
+    3300020: Gear04
+    3300022: Gear05
+    3300024: LightningBolt
+    3300026: Track00
+    3300028: Track01
+    4300000: Body
+    4300002: LightningBolt
+    4300004: Gear00
+    4300006: Gear01
+    4300008: Track00
+    4300010: Gear02
+    4300012: Gear03
+    4300014: Track01
+    4300016: Gear04
+    4300018: Gear05
+    4300020: FacePowerPlug
+    4300022: Battery00
+    4300024: Battery01
+    4300026: FacePowerPlug001
+    4300028: FacePowerPlug002
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
