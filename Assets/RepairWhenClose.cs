@@ -11,6 +11,8 @@ public class RepairWhenClose : MonoBehaviour
   GameObject lighteningPrefab;
   [SerializeField]
   float lighteningWidthMultiple = .01f;
+  [SerializeField]
+  float lighteningLengthMultiple = 1.05f;
 
   [SerializeField]
   Collider2D myLighteningCollider;
@@ -19,7 +21,6 @@ public class RepairWhenClose : MonoBehaviour
 
   Collider2D myCollider;
 
-  List<Collider2D> connectionList = new List<Collider2D>();
   List<GameObject> lighteningList = new List<GameObject>();
 
   protected void Awake()
@@ -28,44 +29,23 @@ public class RepairWhenClose : MonoBehaviour
     myCollider = GetComponent<Collider2D>();
   }
 
-  private void OnTriggerEnter2D(Collider2D collision)
-  {
-    connectionList.Add(collision);
-  }
 
-  private void OnTriggerExit2D(Collider2D collision)
-  {
-    connectionList.Remove(collision);
-  }
-
-  protected void OnTriggerStay2D(
-    Collider2D collision)
-  {
-    Vector2 deltaPosition = transform.position - collision.transform.position;
-    float deltaMag = deltaPosition.sqrMagnitude;
-    float maxDelta = collision.GetComponent<CircleCollider2D>().radius;
-    maxDelta *= maxDelta;
-    if(deltaMag > maxDelta)
-    {
-      return;
-    }
-    float percentDistance = deltaMag / maxDelta;
-    percentDistance = 1 - percentDistance;
-    //machine.currentEffeciencyPercent *= 1 + (repairPercent * percentDistance);
-
-    var distance = collision.GetComponent<CapsuleCollider2D>().Distance(myCollider);
-    Debug.DrawLine(transform.position, distance.pointA, Color.white * percentDistance);
-
-  }
-
+  
   protected void Update()
   {
-    for(int i = 0; i < connectionList.Count; i++)
+    Collider2D[] resultList = new Collider2D[20];
+    var filter = new ContactFilter2D();
+    filter.useLayerMask = true;
+    filter.useTriggers = true;
+    filter.layerMask = LayerMask.GetMask(new[] { "Bots" });
+    int count = myCollider.OverlapCollider(filter, resultList);
+
+    for(int i = 0; i < count; i++)
     {
-      Collider2D collider = connectionList[i];
+      Collider2D collider = resultList[i];
       Vector2 deltaPosition = transform.position - collider.transform.position;
       float deltaMag = deltaPosition.sqrMagnitude;
-      float maxDelta = collider.GetComponent<CircleCollider2D>().radius;
+      float maxDelta = collider.GetComponentInChildren<CircleCollider2D>().radius;
       maxDelta *= maxDelta;
 
       float percentDistance = deltaMag / maxDelta;
@@ -77,14 +57,16 @@ public class RepairWhenClose : MonoBehaviour
 
 
 
-      collider = collider.GetComponent<CapsuleCollider2D>();
+      collider = collider.GetComponentInParent<CapsuleCollider2D>();
       var d = collider.Distance(myLighteningCollider);
       GameObject lightening = GetLightening(i);
       lightening.transform.position = d.pointB;
-      lightening.transform.localScale = new Vector3(amountToHarvest * lighteningWidthMultiple, d.distance, 1);
+      float width = amountToHarvest * lighteningWidthMultiple;
+      width *= width;
+      lightening.transform.localScale = new Vector3(d.distance * lighteningLengthMultiple, width, 1);
       var delta = d.pointA - d.pointB;
       float zRotation = (float)Math.Atan2(delta.y, delta.x);
-      lightening.transform.rotation = Quaternion.Euler(0, 0, zRotation * Mathf.Rad2Deg - 90);
+      lightening.transform.rotation = Quaternion.Euler(0, 0, zRotation * Mathf.Rad2Deg);
 
 
 
@@ -93,7 +75,7 @@ public class RepairWhenClose : MonoBehaviour
       
     }
 
-    while(connectionList.Count < lighteningList.Count)
+    while(count < lighteningList.Count)
     {
       int index = lighteningList.Count - 1;
       GameObject lightening = lighteningList[index];

@@ -3,6 +3,12 @@
 	Properties
 	{
 		_MainTex("Texture", 2D) = "white" {}
+		_Color("Color", Color) = (1,1,1,1)
+		_ZigZagMag("Zig Zag", Float) = .1
+		_SinMag("Sin", Float) = .1
+		_Scale("Scale", Float) = .1
+		_XScale("XScale", Float) = .1
+		_RngSeed("Seed", Float) = 1
 	}
 		SubShader
 	{
@@ -16,6 +22,7 @@
 			#pragma fragment frag
 			// make fog work
 			#pragma multi_compile_fog
+#pragma multi_compile_instancing
 
 			#include "UnityCG.cginc"
 
@@ -23,20 +30,84 @@
 			{
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
-			};
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+		};
 
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
+			float4 _Color;
+			float _ZigZagMag;
+			float _SinMag;
+			float _Scale;
+			float _XScale;
+			float _RngSeed;
+
+			float rng(float usecaseSeed)
+			{
+				//float seed = sin(_RngSeed * 3.19) + sin(usecaseSeed * 3.410);
+				////return frac(sin(objectSeed * 3.19) + sin(usecaseSeed * 3.410));
+				//return frac(sin(seed) * 43758.5453);
+
+				float objectSeed = UNITY_ACCESS_INSTANCED_PROP(_RngSeed);
+
+				return fmod(frac(sin(objectSeed * 3.19) + sin(usecaseSeed * 3.410)) + 1.0, .5) + .5;
+			}
+
+			float rng(float min, float max, float usecaseSeed) 
+			{
+				float random = rng(usecaseSeed);
+				random *= max - min;
+				random += min;
+				return random;
+			}
 
 			v2f vert(appdata v)
 			{
+				// x is .62 -> -.62
+
+				/*if (v.vertex.x < -.62) {
+					v.vertex.y += 10;
+				}
+*/
+				UNITY_SETUP_INSTANCE_ID(v); // Must be called before ACCESS_INSTANCED
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+
+				float4 test = v.vertex;
+
+				float xPercent = test.x / .62; // -1 -> 1
+				xPercent += 1;
+				xPercent /= 2;
+				xPercent = max(0, min(1, xPercent));
+				// 0->1
+
+				float xPercent2 = xPercent + _Time.z * rng(.5, 1.5, 128);
+				xPercent2 %= 1;
+				int breakNumber = xPercent2 * 3;
+				float breakStartPercent = breakNumber / 3.0;
+				float lengthOfBreak = 1.0 / 3.0;
+				float distanceIntoBreak = xPercent2 - breakStartPercent;
+				float percentIntoBreak = distanceIntoBreak / lengthOfBreak;
+
+
+				float percentMag = (1 - abs((xPercent * 2 - 1)));
+
+				v.vertex.y += (percentIntoBreak * _ZigZagMag * percentMag) / _Scale;
+
+
+				
+				float sinPosition = sin(xPercent + _Time.z * rng(1, 10, 817.6));
+				v.vertex.y += (sinPosition * _SinMag * rng(.5, 1.5, 41.99) * percentMag * _XScale ) / _Scale;
+
+				v.vertex.y *= 1-xPercent;
+							
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -50,7 +121,7 @@
 				fixed4 col = tex2D(_MainTex, i.uv);
 			// apply fog
 			UNITY_APPLY_FOG(i.fogCoord, col);
-			return col;
+			return col * _Color;
 		}
 		ENDCG
 	}
