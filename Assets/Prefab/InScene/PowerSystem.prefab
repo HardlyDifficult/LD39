@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114301348273811856}
   - component: {fileID: 114772155772286846}
   - component: {fileID: 114257268335011058}
-  - component: {fileID: 61457144507447738}
+  - component: {fileID: 60222253931403542}
   m_Layer: 0
   m_Name: PowerSystem
   m_TagString: Untagged
@@ -90,15 +90,15 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1804700057257070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.36, y: 2.14, z: 0.017822266}
+  m_LocalPosition: {x: -4, y: 5, z: 0}
   m_LocalScale: {x: 7.480311, y: 7.480312, z: 7.480312}
   m_Children:
   - {fileID: 224721620538389914}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61314431923091216
-BoxCollider2D:
+--- !u!60 &60222253931403542
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -111,18 +111,27 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 0.13636364, y: 0.13636364}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.13239402, y: 0.13295652}
-  m_EdgeRadius: 0
---- !u!61 &61457144507447738
+  m_Points:
+    m_Paths:
+    - - {x: -0.044898696, y: 0.05036057}
+      - {x: -0.03321543, y: 0.03756842}
+      - {x: 0.040415246, y: 0.038395073}
+      - {x: 0.05840723, y: 0.06132756}
+      - {x: 0.0547568, y: 0.06278772}
+      - {x: 0.039245255, y: 0.050102085}
+      - {x: 0.033069834, y: 0.03793878}
+      - {x: -0.03977645, y: 0.03647174}
+      - {x: -0.061124098, y: 0.05880636}
+      - {x: -0.056581967, y: 0.06315272}
+--- !u!61 &61314431923091216
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -131,22 +140,22 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0015850216, y: 0.0011574477}
+  m_Offset: {x: 0, y: -0.01533189}
   m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 0.13636364, y: 0.13636364}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.09071311, y: 0.017362587}
-  m_EdgeRadius: 0.1
+  m_Size: {x: 0.13239402, y: 0.10375295}
+  m_EdgeRadius: 0
 --- !u!114 &114257268335011058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,11 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4fd56a0a981b84db3b088266fdfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lighteningPrefab: {fileID: 1037902256055270, guid: 5c382afd76b10994cb3c81c089730ede,
-    type: 2}
   lighteningWidthMultiple: 0.0003
-  lighteningLengthMultiple: 0.81
-  myLighteningCollider: {fileID: 61457144507447738}
+  myLighteningCollider: {fileID: 60222253931403542}
 --- !u!114 &114398567526525240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -285,8 +291,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0, g: 0.3897059, b: 0.19619675, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 1d6e604ac1fa91a42aff905bb66a4b89, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -362,7 +368,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.002}
+  m_AnchoredPosition: {x: 0, y: -0.04}
   m_SizeDelta: {x: 625, y: 678}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224952333606261100

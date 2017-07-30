@@ -49,7 +49,10 @@ public class MoveBackAndForth : MonoBehaviour
     {
       if(shouldTeleportBack)
       {
+        RandomSize size = GetComponent<RandomSize>();
+        size.Resize();
         transform.position = start;
+        speed = UnityEngine.Random.Range(4f, 20f);
       }
       else
       {

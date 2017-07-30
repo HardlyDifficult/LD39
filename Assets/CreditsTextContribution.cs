@@ -10,7 +10,7 @@ public class CreditsTextContribution : MonoBehaviour
   [SerializeField]
   float speed;
 
-  protected void Start()
+  protected void OnEnable()
   {
     StartCoroutine(Go());
   }

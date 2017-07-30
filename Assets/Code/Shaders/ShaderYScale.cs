@@ -9,6 +9,7 @@ public class ShaderYScale : MonoBehaviour
   protected void Start()
   {
     material = GetComponentInChildren<MeshRenderer>().material;
+    material.SetFloat("_RngSeed", UnityEngine.Random.value * 999); 
   }
 
   void Update()

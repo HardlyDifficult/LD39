@@ -6,8 +6,8 @@
 		_Color("Color", Color) = (1,1,1,1)
 		_ZigZagMag("Zig Zag", Float) = .1
 		_SinMag("Sin", Float) = .1
-		_Scale("Scale", Float) = .1
-		_XScale("XScale", Float) = .1
+		_Scale("Scale (width)", Float) = .1
+		_XScale("XScale (length)", Float) = .1
 		_RngSeed("Seed", Float) = 1
 	}
 		SubShader
@@ -46,9 +46,12 @@
 			float4 _Color;
 			float _ZigZagMag;
 			float _SinMag;
-			float _Scale;
-			float _XScale;
-			float _RngSeed;
+
+			UNITY_INSTANCING_CBUFFER_START(Props)
+				UNITY_DEFINE_INSTANCED_PROP(fixed, _RngSeed)
+				UNITY_DEFINE_INSTANCED_PROP(fixed, _Scale)
+				UNITY_DEFINE_INSTANCED_PROP(fixed, _XScale)
+			UNITY_INSTANCING_CBUFFER_END
 
 			float rng(float usecaseSeed)
 			{
@@ -85,29 +88,45 @@
 				float4 test = v.vertex;
 
 				float xPercent = test.x / .62; // -1 -> 1
-				xPercent += 1;
-				xPercent /= 2;
+				xPercent += 1.0;
+				xPercent /= 2.0;
 				xPercent = max(0, min(1, xPercent));
-				// 0->1
+				// xPercent 0->1
 
-				float xPercent2 = xPercent + _Time.z * rng(.5, 1.5, 128);
-				xPercent2 %= 1; 
-				int breakNumber = xPercent2 * 3;
-				float breakStartPercent = breakNumber / 3.0;
-				float lengthOfBreak = 1.0 / 3.0;
+				float delta = _Time.z* .5;//% 1.0; // *  rng(.05, .15, 128))
+				// delta 0->1 repeating
+
+				float xPercent2 = xPercent ;
+				xPercent2 %= 1.0; 
+
+				// xPercent2 0->1 repeating and smoothed 
+
+				/*xPercent2 += breakStartPercent;
+				xPercent2 %= 1.0;*/
+
+
+				float numberOfBreaks = 5.0 * UNITY_ACCESS_INSTANCED_PROP(_XScale);
+				int breakNumber = xPercent2 * numberOfBreaks;
+
+				float breakStartPercent = breakNumber / numberOfBreaks + delta;
+				breakStartPercent %= 1.0;
+
+				float lengthOfBreak = 1.0 / numberOfBreaks;
 				float distanceIntoBreak = xPercent2 - breakStartPercent;
 				float percentIntoBreak = distanceIntoBreak / lengthOfBreak;
 
 
-				v.vertex.y *= 1-xPercent;
-				float percentMag = (1 - abs((xPercent * 2 - 1)));
+				v.vertex.y *= 1.0-xPercent2;
 
-				v.vertex.y += (percentIntoBreak * _ZigZagMag * percentMag) / _Scale;
+
+				float percentMag = (1.0 - abs((xPercent2 * 2.0 - 1.0)));
+
+				v.vertex.y += .3 * (percentIntoBreak * _ZigZagMag * percentMag) / UNITY_ACCESS_INSTANCED_PROP(_Scale);
 
 
 				
 				float sinPosition = sin(xPercent + _Time.z * rng(1, 10, 817.6));
-				v.vertex.y += (sinPosition * _SinMag * rng(.5, 1.5, 41.99) * percentMag * _XScale ) / _Scale;
+				v.vertex.y += (sinPosition * _SinMag * rng(.5, 1.5, 41.99) * percentMag * UNITY_ACCESS_INSTANCED_PROP(_XScale)) / UNITY_ACCESS_INSTANCED_PROP(_Scale);
 
 							
 				o.vertex = UnityObjectToClipPos(v.vertex);
