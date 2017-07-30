@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -15,10 +16,25 @@ public class GameController : MonoBehaviour
 
   protected void Awake()
   {
+    if(instance != null)
+    {
+      Destroy(gameObject);
+      return;
+    }
+
     instance = this;
+    SceneManager.sceneLoaded += SceneManager_sceneLoaded;
   }
 
-  protected void FixedUpdate()
+  private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1)
+  {
+    if(scene.name == "Menu")
+    {
+      totalOutput = 0;
+    }
+  }
+
+  protected void Update()
   {
     throughputLastUpdate = totalOutput - totalLastUpdate;
     totalLastUpdate = totalOutput;

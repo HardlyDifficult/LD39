@@ -25,7 +25,9 @@ public class MiniMapCamera : MonoBehaviour
       bounds.Encapsulate(character.GetComponent<CapsuleCollider2D>().bounds);
     }
 
-    float maxSize = Mathf.Max(bounds.extents.x, bounds.extents.y);
+    Vector2 a = bounds.max - bounds.center;
+    Vector2 b = bounds.min - bounds.center;
+    float maxSize = Mathf.Max(Mathf.Abs(b.x), a.x, Mathf.Abs(b.y), a.y);
     Camera camera = GetComponent<Camera>();
     camera.transform.position = new Vector3(bounds.center.x, bounds.center.y, -10);
     camera.orthographicSize = maxSize + 1;

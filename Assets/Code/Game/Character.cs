@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+  public static int count;
   public int amountHarvestedThisFixed;
 
   [SerializeField]
@@ -56,5 +57,14 @@ public class Character : MonoBehaviour
 
       amountHarvestedThisFixed = 0;
     }
+  }
+
+  protected void OnEnable()
+  {
+    count++;
+  }
+  protected void OnDisable()
+  {
+    count--;
   }
 }

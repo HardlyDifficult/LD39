@@ -10,6 +10,8 @@ public class CharacterShader : MonoBehaviour
   Character character;
   Material material;
 
+  float progress;
+
   protected void Awake()
   {
     character = GetComponentInParent<Character>();
@@ -19,8 +21,20 @@ public class CharacterShader : MonoBehaviour
 
   protected void Update()
   {
-    float delta = character.currentEnergyPercent;
+    float delta = character.currentEnergyPercent; // 1 -> 0
+    delta = 1 - delta;
+    delta *= delta;
+    delta = 1 - delta;
+    // Goal is to fast then slow
+
+    float temp = character.currentEnergyPercent;
+    temp *= temp;
+    //temp = 1 - temp;
+
+    progress += Time.deltaTime * temp;
+   
     //delta *= delta;
     material.SetFloat("_Size",  delta);
+    material.SetFloat("_Progress",  progress);
   }
 }

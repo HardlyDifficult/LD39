@@ -12,7 +12,7 @@ public class TextThroughput : MonoBehaviour
     text = GetComponent<Text>();
   }
 
-  protected void FixedUpdate()
+  protected void Update()
   {
     text.text = "Throughput: "
       + GameController.instance.throughputLastUpdate.ToString("N0")

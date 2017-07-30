@@ -77,6 +77,8 @@
 					v.vertex.y += 10;
 				}
 */
+				v2f o;
+
 				UNITY_SETUP_INSTANCE_ID(v); // Must be called before ACCESS_INSTANCED
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 
@@ -89,7 +91,7 @@
 				// 0->1
 
 				float xPercent2 = xPercent + _Time.z * rng(.5, 1.5, 128);
-				xPercent2 %= 1;
+				xPercent2 %= 1; 
 				int breakNumber = xPercent2 * 3;
 				float breakStartPercent = breakNumber / 3.0;
 				float lengthOfBreak = 1.0 / 3.0;
@@ -108,7 +110,6 @@
 				v.vertex.y += (sinPosition * _SinMag * rng(.5, 1.5, 41.99) * percentMag * _XScale ) / _Scale;
 
 							
-				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				UNITY_TRANSFER_FOG(o,o.vertex);

@@ -23,6 +23,13 @@ public class CameraFollowPlayers : MonoBehaviour
 
   protected void FixedUpdate()
   {
+    if(PlayerController.playerList.Count == 0)
+    {
+      targetPosition = new Vector3(0, 0, -10);
+      targetSize = minSize;
+      return;
+    }
+
     Vector2 averagePosition = Vector2.zero;
     Vector2 minPosition = new Vector2(float.MaxValue, float.MaxValue);
     Vector2 maxPosition = new Vector2(float.MinValue, float.MinValue);

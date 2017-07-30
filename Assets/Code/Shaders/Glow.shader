@@ -2,12 +2,14 @@
 {
 	Properties
 	{
+
 		_MainTex ("Texture", 2D) = "white" {}
 	_Color("Color", Color) = (1,1,1,1)
 		_GlowColor("Glow color", Color) = (1,1,1,1)
 			_Size("Size", Float) = 1
 			_RngSeed("Seed", Float) = 1
-			_Stretch("Stretch", Float) = 1
+		_Stretch("Stretch", Float) = 1
+		_Progress("Progress", Float) = 1
 	}
 	SubShader
 	{
@@ -29,6 +31,7 @@
 	{
 		float4 vertex : POSITION;
 		float2 uv : TEXCOORD0;
+		UNITY_VERTEX_INPUT_INSTANCE_ID
 	};
 
 	struct v2f
@@ -36,6 +39,7 @@
 		float2 uv : TEXCOORD0;
 		UNITY_FOG_COORDS(1)
 			float4 vertex : SV_POSITION;
+		UNITY_VERTEX_INPUT_INSTANCE_ID
 	};
 
 	sampler2D _MainTex;
@@ -47,6 +51,7 @@
 	UNITY_INSTANCING_CBUFFER_START(Props)
 		UNITY_DEFINE_INSTANCED_PROP(fixed, _RngSeed)
 		UNITY_DEFINE_INSTANCED_PROP(fixed, _Size)
+		UNITY_DEFINE_INSTANCED_PROP(fixed, _Progress)
 	UNITY_INSTANCING_CBUFFER_END
 
 	float rng(float usecaseSeed)
@@ -70,11 +75,11 @@
 
 	v2f vert(appdata v)
 	{
+		v2f o;
 
 		UNITY_SETUP_INSTANCE_ID(v); // Must be called before ACCESS_INSTANCED
 		UNITY_TRANSFER_INSTANCE_ID(v, o);
 
-		v2f o;
 		float t = (1 + abs(v.vertex.x)) * (1 + abs(v.vertex.y));
 
 		// need 0->1->0->-1->...
@@ -99,12 +104,13 @@
 			}
 		}
 
-		v.vertex.x *= 1 + UNITY_ACCESS_INSTANCED_PROP(_Size) * rng(.5, 1.5, _Time.x * 129.81 * t);
-		v.vertex.z *= 1 + UNITY_ACCESS_INSTANCED_PROP(_Size) * rng(.5, 1.5, _Time.x * 41.99 * t);
+		v.vertex.x *= 1 + UNITY_ACCESS_INSTANCED_PROP(_Size) * rng(.5, 1.5, UNITY_ACCESS_INSTANCED_PROP(_Progress) * 129.81 * t);
+		v.vertex.z *= 1 + UNITY_ACCESS_INSTANCED_PROP(_Size) * rng(.5, 1.5, UNITY_ACCESS_INSTANCED_PROP(_Progress) * 41.99 * t);
 		v.vertex.y += 1;
 
 
-		v.vertex.xz *= .75 + abs(sin(_Time.y * rng(1, 2, 19.1) + _Time.x)) * .5;
+		v.vertex.xz *= .75 + abs(sin(UNITY_ACCESS_INSTANCED_PROP(_Progress)))
+			* .5 * min(1,UNITY_ACCESS_INSTANCED_PROP(_Size));
 
 		o.vertex = UnityObjectToClipPos(v.vertex);
 		o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -118,7 +124,7 @@
 		fixed4 col = tex2D(_MainTex, i.uv);
 		// apply fog
 		UNITY_APPLY_FOG(i.fogCoord, col);
-		return col * _GlowColor * (1,1,1,.5);
+		return col * _GlowColor * float4(1,1,1,.5 * min(1, UNITY_ACCESS_INSTANCED_PROP(_Size))* min(1, UNITY_ACCESS_INSTANCED_PROP(_Size)));
 	}
 		ENDCG
 	}

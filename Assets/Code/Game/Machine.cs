@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Machine : MonoBehaviour
 {
+
+  public static int count;
+
   public static int initialNetworkPotential;
   public static int totalNetworkPotential;
 
@@ -58,5 +61,14 @@ public class Machine : MonoBehaviour
   protected void Start()
   {
     initialNetworkPotential = totalNetworkPotential;
+  }
+
+  protected void OnEnable()
+  {
+    count++;
+  }
+  protected void OnDisable()
+  {
+    count--;
   }
 }

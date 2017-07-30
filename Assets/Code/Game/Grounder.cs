@@ -54,9 +54,10 @@ public class Grounder : MonoBehaviour
       maxDelta *= maxDelta;
 
       float percentDistance = deltaMag / maxDelta;
-      percentDistance = Mathf.Clamp(percentDistance, 0, 1);
       percentDistance = 1 - percentDistance;
-      float multiple = 1 + (count - 1) * .9f;
+      percentDistance *= percentDistance;
+      percentDistance = Mathf.Clamp(percentDistance, .1f, 1);
+      float multiple = 1 + (count - 1) * .75f;
       int amountToHarvest = (int)((amountPer / multiple) * percentDistance);
       character.energyLevel += amountToHarvest;
 
@@ -67,8 +68,8 @@ public class Grounder : MonoBehaviour
       GameObject lightening = GetLightening(i);
       lightening.transform.position = d.pointA;
       float width = Mathf.Abs(amountToHarvest) * lighteningWidthMultiple;
+      width = Mathf.Clamp(width, .25f, 1);
       width *= width;
-      width += .001f;
       lightening.transform.localScale = new Vector3(d.distance * lighteningLengthMultiple, width, 1);
       var delta =  d.pointB - d.pointA;
       float zRotation = (float)Mathf.Atan2(delta.y, delta.x);
