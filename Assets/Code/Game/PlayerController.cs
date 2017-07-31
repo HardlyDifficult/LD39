@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour
     float xDirection = Input.GetAxis("Horizontal");
     float yDirection = Input.GetAxis("Vertical");
 
-    myBody.velocity = new Vector2(xDirection, yDirection) * speed * character.currentEnergyPercent;
+    myBody.velocity = new Vector2(xDirection, yDirection) * speed * character.currentEnergyPercent 
+      * (character.overload * 3 + 1);
     float moveMag = myBody.velocity.magnitude;
 
     character.energyLevel -= (int)(moveMag * costPerMag);

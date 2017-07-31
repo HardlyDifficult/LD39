@@ -7,8 +7,7 @@ public class LevelManager : MonoBehaviour
 {
   public float percentHarvestToProceed;
 
-  [SerializeField]
-  int thisLevelNumber;
+  public int thisLevelNumber;
 
   protected void Update()
   {
@@ -18,7 +17,7 @@ public class LevelManager : MonoBehaviour
       float percentOfNetwork = (float)GameController.instance.totalOutput / Machine.initialNetworkPotential;
       if(percentOfNetwork >= percentHarvestToProceed)
       {
-        if(thisLevelNumber > 1)
+        if(thisLevelNumber >= 3)
         { // win
           SceneManager.LoadScene("Win");
         }

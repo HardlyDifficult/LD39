@@ -106,6 +106,9 @@
 
 
 				float numberOfBreaks = 5.0 * UNITY_ACCESS_INSTANCED_PROP(_XScale);
+				if (UNITY_ACCESS_INSTANCED_PROP(_XScale) > 10) {
+					numberOfBreaks *= 2	;
+				}
 				int breakNumber = xPercent2 * numberOfBreaks;
 
 				float breakStartPercent = breakNumber / numberOfBreaks + delta;

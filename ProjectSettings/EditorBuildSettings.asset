@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Level1.unity
     guid: acba608eb0cb4874481c7f9fa8beeec5
   - enabled: 1
-    path: Assets/Scenes/Level2.unity
+    path: Assets/Scenes/Level3.unity
     guid: df0e9816b480c344ab127a768144f5ea
   - enabled: 1
     path: Assets/Scenes/Win.unity
@@ -20,3 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: aefba3f02dbbbd94ba4e671639c321bb
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: fabe7e9b53591494f803b88af5e7a63f

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIAboutGame : MonoBehaviour
 {
-  protected void Start()
+  protected void Awake()
   {
     Time.timeScale = 0;
   }

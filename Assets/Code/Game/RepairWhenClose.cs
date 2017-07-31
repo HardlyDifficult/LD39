@@ -8,8 +8,7 @@ public class RepairWhenClose : MonoBehaviour
   [SerializeField]
   float lighteningWidthMultiple = .01f;
 
-  [SerializeField]
-  Collider2D myLighteningCollider;
+  public Collider2D myLighteningCollider;
 
   Machine machine;
 
@@ -24,6 +23,11 @@ public class RepairWhenClose : MonoBehaviour
   
   protected void Update()
   {
+    if(Time.timeScale < .1)
+    {
+      return;
+    }
+
     Collider2D[] resultList = new Collider2D[20];
     var filter = new ContactFilter2D();
     filter.useLayerMask = true;
@@ -50,7 +54,7 @@ public class RepairWhenClose : MonoBehaviour
       percentDistance *= percentDistance;
       percentDistance = Mathf.Clamp(percentDistance, .1f, 1);
       float multiple = 1 + (count - 1) * .75f;
-      int amountToHarvest = (int)((machine.maxPonetialPerFixed / multiple) * percentDistance * (.1 + machine.percentPotential));
+      int amountToHarvest = (int)((machine.maxPonetialPerFixed / multiple) * percentDistance * (.1 + machine.percentPotential) * Time.deltaTime * 60f);
       amountToHarvest = Mathf.Clamp(amountToHarvest, 0, machine.totalPotential);
 
       character.Harvest(machine, amountToHarvest);
@@ -59,7 +63,7 @@ public class RepairWhenClose : MonoBehaviour
       var d = collider.Distance(myLighteningCollider);
       float width = amountToHarvest * lighteningWidthMultiple;
       width *= width;
-      width += .001f;
+      width += .005f;
 
       GameController.instance.CreateLightning(
         isRed: false,

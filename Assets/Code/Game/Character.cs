@@ -14,6 +14,8 @@ public class Character : MonoBehaviour
   int maxEnergyLevel = 10000;
   public int energyLevel = 10000;
 
+  public float overload = 0;
+
   [SerializeField]
   int energyPerTick = 1;
   [SerializeField]
@@ -65,7 +67,15 @@ public class Character : MonoBehaviour
 
   protected void Update()
   {
-    energyLevel -= energyPerTick;
+    if(overload > 0)
+    {
+      overload -= .01f;
+      energyLevel = maxEnergyLevel;
+    } else
+    {
+      energyLevel -= energyPerTick;
+    }
+
     if(amountHarvestedThisFixed > 0)
     {
       energyLevel += (int)(amountHarvestedThisFixed * internalAbsorbRate);

@@ -48,7 +48,7 @@ public class CameraFollowPlayers : MonoBehaviour
     Vector2 deltaPosition = maxPosition - minPosition;
     float maxDelta = Mathf.Max(deltaPosition.x, deltaPosition.y);
 
-    targetSize = Mathf.Max(minSize, maxDelta);
+    targetSize = Mathf.Max(minSize, maxDelta + 2);
     targetPosition = (Vector3)averagePosition + new Vector3(0, 0, -10);
   }
 
