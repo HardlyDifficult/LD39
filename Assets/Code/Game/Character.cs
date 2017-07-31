@@ -67,6 +67,11 @@ public class Character : MonoBehaviour
 
   protected void Update()
   {
+    if(Time.timeScale < .1)
+    {
+      return;
+    }
+
     if(overload > 0)
     {
       overload -= .01f;

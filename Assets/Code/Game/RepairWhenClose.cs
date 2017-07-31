@@ -65,6 +65,8 @@ public class RepairWhenClose : MonoBehaviour
       width *= width;
       width += .005f;
 
+      width = Mathf.Clamp(width, .05f, .5f);
+
       GameController.instance.CreateLightning(
         isRed: false,
         from: d.pointB,
